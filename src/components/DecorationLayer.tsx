@@ -7,20 +7,18 @@ export type Density = "sparse" | "normal" | "high";
 // Full Lego palette so colors feel naturally varied across sections.
 const PALETTE = ["#d01012", "#006cb7", "#2f9e44", "#f6a700", "#7048b0", "#e8590c"];
 
-// Candidate placement slots around all four edges, kept clear of the centered
-// content column. Pieces are picked from here per section so they don't always
-// land on the same side.
+// Corner clusters only — pieces sit in the four corners (two spots per corner)
+// rather than floating along the edges, which read as random. Kept clear of the
+// centered content column.
 const SLOTS: React.CSSProperties[] = [
-  { left: 8, top: 28 },
-  { left: 18, bottom: 24 },
-  { left: 28, top: "46%" },
-  { right: 8, top: 28 },
-  { right: 18, bottom: 24 },
-  { right: 28, top: "46%" },
-  { left: "13%", top: 14 },
-  { right: "13%", top: 14 },
-  { left: "20%", bottom: 14 },
-  { right: "20%", bottom: 14 },
+  { left: 10, top: 18 },
+  { left: 30, top: 34 },
+  { right: 10, top: 18 },
+  { right: 30, top: 34 },
+  { left: 12, bottom: 20 },
+  { left: 34, bottom: 30 },
+  { right: 12, bottom: 20 },
+  { right: 34, bottom: 30 },
 ];
 
 const COUNT: Record<Density, [number, number]> = {
@@ -81,13 +79,18 @@ export function DecorationLayer({
         const color = PALETTE[Math.floor(rnd() * PALETTE.length)];
         const studs = 2 + Math.floor(rnd() * 2);
         const width = 44 + Math.floor(rnd() * 36);
+        const legColor = PALETTE[Math.floor(rnd() * PALETTE.length)];
         return (
           <div
             key={i}
             className="absolute hidden sm:block"
             style={{ ...pos, transform: `rotate(${rotation}deg)` }}
           >
-            {isMinifig ? <Minifigure width={48} /> : <Brick color={color} studs={studs} width={width} />}
+            {isMinifig ? (
+              <Minifigure width={46} torso={color} arms={color} legs={legColor} hips={legColor} />
+            ) : (
+              <Brick color={color} studs={studs} width={width} />
+            )}
           </div>
         );
       })}
