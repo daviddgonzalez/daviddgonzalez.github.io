@@ -70,12 +70,13 @@ export function DecorationLayer({
   // corner to itself (no brick stack there), so it can't overlap bricks.
   const minifigCorner = plan.corners >= 2 && rnd() < 0.55 ? corners.length - 1 : -1;
 
-  // Mobile gets a couple of small bricks tucked into the shallow top/bottom
-  // corners, which sit inside the section's vertical padding (clear of the
-  // centered text). Desktop pieces are hidden on mobile and vice versa.
+  // Mobile gets a couple of small bricks in the BOTTOM corners — they sit in
+  // the section's bottom padding (clear of the text) and never hide behind the
+  // sticky nav the way top-anchored pieces would. Desktop pieces are hidden on
+  // mobile and vice versa.
   const mobileSlots: React.CSSProperties[] = [
-    { left: 6, top: 8 },
-    { right: 6, bottom: 8 },
+    { left: 10, bottom: 10 },
+    { right: 10, bottom: 10 },
   ];
   const mobileCount = density === "high" || density === "max" ? 2 : 1;
 
@@ -83,7 +84,7 @@ export function DecorationLayer({
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
       {mobileSlots.slice(0, mobileCount).map((pos, k) => {
         const colors = Array.from(
-          { length: 2 },
+          { length: 2 + Math.floor(rnd() * 2) },
           () => PALETTE[Math.floor(rnd() * PALETTE.length)]
         );
         return (
@@ -92,7 +93,7 @@ export function DecorationLayer({
             className="absolute sm:hidden"
             style={{ ...pos, transform: `rotate(${k ? 4 : -4}deg)` }}
           >
-            <BrickColumn colors={colors} width={32} studs={2} />
+            <BrickColumn colors={colors} width={42} studs={3} />
           </div>
         );
       })}
