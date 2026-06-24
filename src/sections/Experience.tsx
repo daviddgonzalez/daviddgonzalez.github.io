@@ -5,7 +5,7 @@ import { profile } from "@/content/profile";
 
 export function Experience() {
   return (
-    <Section id="experience">
+    <Section id="experience" density="sparse">
       <div className="flex items-center justify-between">
         <h2 className="font-display text-3xl font-bold text-fg">Experience</h2>
         <a href={profile.resumeUrl} className="text-sm text-accent hover:underline" download>

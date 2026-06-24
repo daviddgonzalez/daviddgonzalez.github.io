@@ -7,7 +7,7 @@ export function Skills() {
     return acc;
   }, {});
   return (
-    <Section id="skills">
+    <Section id="skills" density="sparse">
       <h2 className="font-display text-3xl font-bold text-fg">Skills</h2>
       <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {Object.entries(byCategory).map(([cat, labels]) => (

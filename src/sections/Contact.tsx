@@ -4,7 +4,7 @@ import { profile } from "@/content/profile";
 export function Contact() {
   const { email, github, linkedin } = profile.socials;
   return (
-    <Section id="contact">
+    <Section id="contact" density="high">
       <h2 className="font-display text-3xl font-bold text-fg">Contact</h2>
       <p className="mt-4 text-muted">Open to new opportunities — let's talk.</p>
       <div className="mt-6 flex flex-wrap gap-4">

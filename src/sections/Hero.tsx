@@ -3,7 +3,7 @@ import { profile } from "@/content/profile";
 
 export function Hero() {
   return (
-    <Section id="hero" className="min-h-[80vh] flex items-center">
+    <Section id="hero" density="high" className="min-h-[80vh] flex items-center">
       <div className="text-center mx-auto">
         <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">{profile.role}</p>
         <h1 className="font-display mt-3 text-5xl font-bold tracking-tight text-fg">{profile.name}</h1>
