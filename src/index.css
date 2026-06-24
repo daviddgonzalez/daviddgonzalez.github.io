@@ -2,8 +2,21 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "./theme/themes.css";
 
 @custom-variant dark (&:is(.dark *));
+
+html { color-scheme: dark; }
+body {
+  background-color: var(--color-bg);
+  background-image: var(--bg-image);
+  background-size: var(--bg-size);
+  color: var(--color-fg);
+  font-family: var(--font-body);
+}
+@media (prefers-reduced-motion: no-preference) {
+  body { transition: background-color 0.3s ease, color 0.3s ease; }
+}
 
 @theme inline {
     --font-heading: var(--font-sans);
