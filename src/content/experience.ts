@@ -7,7 +7,7 @@ export const experience: Role[] = [
     title: "Software Engineering Intern",
     period: "May 2026 – Present",
     summary:
-      "Built an empirical compatibility harness from scratch to evaluate AI-agent skills, pairing deterministic outcomes with an LLM judge. Raised test coverage by up to 106% with regression tests for QA-found bugs, and lazy-loaded 93% of ESM modules while cutting redundant git subprocess calls to accelerate command execution by up to 85%.",
+      "I built a compatibility harness from scratch that checks whether AI-agent skills actually work, combining deterministic checks with an LLM judge for the fuzzier cases. I raised test coverage by up to 106%, mostly through regression tests for bugs we caught in QA. I also lazy-loaded 93% of the ESM modules and cleaned up redundant git subprocess calls, which made some commands run up to 85% faster.",
     legoBuild: "judge",
   },
   {
@@ -16,16 +16,16 @@ export const experience: Role[] = [
     title: "Undergraduate Software Researcher",
     period: "May 2026 – Present",
     summary:
-      "Authored and tested ROS XML mission plans directing an autonomous submarine's robotic gripper to align with, grasp, and manipulate objects. Designed software consuming camera, hydrophone, and onboard-sensor data from ROS subscriber nodes to orient the sub throughout each mission.",
+      "I write and test the ROS mission plans that tell an autonomous submarine's gripper how to line up with an object, grab it, and move it. I also work on the software that reads camera, hydrophone, and other sensor feeds from existing ROS nodes to keep the sub oriented during a run.",
     legoBuild: "submarine",
   },
   {
     id: "ta-discrete",
     company: "University of Florida",
-    title: "Teaching Assistant — Discrete Structures",
+    title: "Teaching Assistant, Discrete Structures",
     period: "Jan 2026 – Present",
     summary:
-      "Mentored 55+ students through weekly discussion sections; section students scored 5% higher than the course average on exams. Lesson-planned and authored over 33% of exam materials.",
+      "I run weekly discussion sections for 55+ students in Discrete Structures. My sections averaged 5% above the rest of the course on exams, and I write more than a third of the exam questions.",
     legoBuild: "chalkboard",
   },
   {
@@ -34,7 +34,7 @@ export const experience: Role[] = [
     title: "Design Team",
     period: "Apr 2026 – Present",
     summary:
-      "Built data-visualization components surfacing engagement trends from historical attendance records for chapter leadership, and a secure location-based check-in system that automates real-time attendance — launching in fall to 300+ members across partnered clubs.",
+      "I built the data-visualization pieces that show chapter leadership how engagement has trended from past attendance, plus a secure location-based check-in that tracks attendance automatically. It launches this fall to 300+ members across partnered clubs.",
     legoBuild: "meeting",
   },
 ];

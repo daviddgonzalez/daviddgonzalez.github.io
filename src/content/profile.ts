@@ -3,8 +3,8 @@ import type { Profile } from "./types";
 export const profile: Profile = {
   name: "David Gonzalez",
   role: "Software Engineer",
-  tagline: "CS student at the University of Florida building reliable, well-tested software — from AI tooling to autonomous systems.",
-  bio: "I'm a Computer Science student at the University of Florida (4.0 GPA, minor in Mathematics) who likes building dependable systems end to end. Right now I'm a Software Engineering Intern at AvonRisk and an undergraduate researcher in UF's Machine Intelligence Laboratory, working on AI-agent evaluation tooling and autonomous robotics. I care about testing, performance, and shipping things that actually work.",
+  tagline: "CS student at the University of Florida. I build reliable, well-tested software, currently for AI tooling and autonomous robots.",
+  bio: "I'm a computer science student at the University of Florida, where I'm holding a 4.0 and minoring in math. I like building software all the way through, from the messy backend to the part people actually click. These days I intern at AvonRisk and do research at UF's Machine Intelligence Laboratory, so my week swings between AI-agent tooling and an autonomous submarine. I write a lot of tests, I chase down slow code, and I'd rather ship something solid than something clever.",
   socials: {
     email: "ddgonzalez.cs@gmail.com",
     github: "https://github.com/daviddgonzalez",

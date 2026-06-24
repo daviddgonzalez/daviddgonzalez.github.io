@@ -6,9 +6,9 @@ export const projects: Project[] = [
   {
     id: "ledgr",
     name: "Ledgr",
-    blurb: "Bank of America Code-a-thon finalist — receipts to ledger via a vision-LLM pipeline.",
+    blurb: "Bank of America Code-a-thon finalist. Turns a photo of a receipt into structured ledger data.",
     description:
-      "An async FastAPI backend uses LiteLLM to prompt Gemma-3 for structured JSON extraction of receipt data, with an EasyOCR + custom regex parser as fallback. The frontend is a unified Bun/Turborepo monorepo: a SvelteKit web dashboard, a React Native mobile client, and a PostgreSQL database, deployed via Docker and Railway.",
+      "The backend is a FastAPI service that asks Gemma-3, through LiteLLM, to pull receipt fields into JSON, and falls back to EasyOCR with a regex parser when the model isn't confident. Everything lives in one Bun and Turborepo monorepo: a SvelteKit dashboard, a React Native app, and a PostgreSQL database, deployed on Docker and Railway.",
     tech: ["FastAPI", "LiteLLM", "SvelteKit", "React Native", "Bun", "PostgreSQL", "Docker"],
     links: {},
     legoBuild: "receipt",
@@ -16,9 +16,9 @@ export const projects: Project[] = [
   {
     id: "mypose",
     name: "MyPose",
-    blurb: "Personalized biomechanical evaluation with a calibrated Siamese pose model.",
+    blurb: "Personalized form-checking from video, with a pose model you calibrate to yourself.",
     description:
-      "A user-calibrated Siamese network on a PyTorch ST-GCN base maps individual kinematic manifolds for personalized biomechanical evaluation. An async FastAPI + MediaPipe pipeline extracts 33-node skeletal graphs into pgvector for fast spatial-temporal search, and a C++/pybind11 module uses Dynamic Time Warping to align sequences and isolate joint-angle deviations.",
+      "A Siamese network on a PyTorch ST-GCN base learns your own movement, so it judges form against you rather than a generic average. A FastAPI and MediaPipe pipeline pulls 33-point skeletons out of video and stores them in pgvector for fast similarity search, and a C++ module (via pybind11) uses Dynamic Time Warping to line up two motions and flag exactly which joint angles drift.",
     tech: ["PyTorch", "OpenCV", "C++", "FastAPI", "Supabase", "React"],
     links: { demo: "https://my-pose-two.vercel.app/" },
     legoBuild: "pose",
@@ -26,9 +26,9 @@ export const projects: Project[] = [
   {
     id: "traceandpace",
     name: "TraceAndPace",
-    blurb: "Browser tree-comparison engine in C++/WebAssembly handling a million data points.",
+    blurb: "A tree-comparison engine that runs in the browser, written in C++ and compiled to WebAssembly.",
     description:
-      "A multithreaded C++ backend performs concurrent tree operations while ensuring comparison validity, compiled to WebAssembly via Emscripten for the browser. A custom node-condensation algorithm reduces 1,000,000 data points into 50 recursive nodes for fast, legible visualization.",
+      "A multithreaded C++ core runs tree operations in parallel while keeping comparisons consistent, then compiles to WebAssembly with Emscripten so the whole thing runs client-side. A condensation algorithm I wrote collapses a million data points down to 50 nodes, which is what keeps the visualization both quick and readable.",
     tech: ["C++", "WebAssembly", "Emscripten", "React", "TypeScript"],
     links: { demo: "https://trace-and-pace.vercel.app/" },
     legoBuild: "tree",
