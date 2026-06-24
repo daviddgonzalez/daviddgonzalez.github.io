@@ -4,7 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>vite-scaffold</title>
+    <title>David Gonzalez — Software Engineer</title>
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("portfolio-theme");
+          document.documentElement.dataset.theme = (t === "lego" || t === "default") ? t : "default";
+        } catch (e) {
+          document.documentElement.dataset.theme = "default";
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
