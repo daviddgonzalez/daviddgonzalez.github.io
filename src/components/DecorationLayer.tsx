@@ -2,7 +2,7 @@ import { useTheme } from "@/theme/useTheme";
 import { Brick } from "@/lego/Brick";
 import { Minifigure } from "@/lego/Minifigure";
 
-export type Density = "sparse" | "normal" | "high";
+export type Density = "sparse" | "normal" | "high" | "max";
 
 // Full Lego palette so colors feel naturally varied across sections.
 const PALETTE = ["#d01012", "#006cb7", "#2f9e44", "#f6a700", "#7048b0", "#e8590c"];
@@ -11,20 +11,29 @@ const PALETTE = ["#d01012", "#006cb7", "#2f9e44", "#f6a700", "#7048b0", "#e8590c
 // rather than floating along the edges, which read as random. Kept clear of the
 // centered content column.
 const SLOTS: React.CSSProperties[] = [
+  // top-left
   { left: 10, top: 18 },
-  { left: 30, top: 34 },
+  { left: 32, top: 34 },
+  { left: 18, top: 52 },
+  // top-right
   { right: 10, top: 18 },
-  { right: 30, top: 34 },
+  { right: 32, top: 34 },
+  { right: 18, top: 52 },
+  // bottom-left
   { left: 12, bottom: 20 },
-  { left: 34, bottom: 30 },
+  { left: 34, bottom: 32 },
+  { left: 20, bottom: 50 },
+  // bottom-right
   { right: 12, bottom: 20 },
-  { right: 34, bottom: 30 },
+  { right: 34, bottom: 32 },
+  { right: 20, bottom: 50 },
 ];
 
 const COUNT: Record<Density, [number, number]> = {
   sparse: [1, 2],
   normal: [2, 3],
   high: [4, 5],
+  max: [8, 10],
 };
 
 // Deterministic seed from a string so each section's arrangement is stable
