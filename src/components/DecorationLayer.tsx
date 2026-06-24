@@ -7,33 +7,21 @@ export type Density = "sparse" | "normal" | "high" | "max";
 // Full Lego palette so colors feel naturally varied across sections.
 const PALETTE = ["#d01012", "#006cb7", "#2f9e44", "#f6a700", "#7048b0", "#e8590c"];
 
-// Corner clusters only — pieces sit in the four corners (two spots per corner)
-// rather than floating along the edges, which read as random. Kept clear of the
-// centered content column.
-const SLOTS: React.CSSProperties[] = [
-  // top-left
-  { left: 10, top: 18 },
-  { left: 32, top: 34 },
-  { left: 18, top: 52 },
-  // top-right
-  { right: 10, top: 18 },
-  { right: 32, top: 34 },
-  { right: 18, top: 52 },
-  // bottom-left
-  { left: 12, bottom: 20 },
-  { left: 34, bottom: 32 },
-  { left: 20, bottom: 50 },
-  // bottom-right
-  { right: 12, bottom: 20 },
-  { right: 34, bottom: 32 },
-  { right: 20, bottom: 50 },
+// One anchor per corner. Each populated corner gets exactly ONE item — a
+// connected brick stack OR a minifigure — so a minifig never overlaps bricks.
+const CORNERS: React.CSSProperties[] = [
+  { left: 14, top: 14 },
+  { right: 14, top: 14 },
+  { left: 16, bottom: 14 },
+  { right: 16, bottom: 14 },
 ];
 
-const COUNT: Record<Density, [number, number]> = {
-  sparse: [1, 2],
-  normal: [2, 3],
-  high: [4, 5],
-  max: [8, 10],
+// How many corners to populate, and how many bricks per stack, per density.
+const PLAN: Record<Density, { corners: number; stack: [number, number] }> = {
+  sparse: { corners: 1, stack: [2, 3] },
+  normal: { corners: 2, stack: [2, 3] },
+  high: { corners: 3, stack: [3, 4] },
+  max: { corners: 4, stack: [4, 6] },
 };
 
 // Deterministic seed from a string so each section's arrangement is stable
@@ -69,37 +57,50 @@ export function DecorationLayer({
   if (theme !== "lego") return null;
 
   const rnd = mulberry32(hashSeed(seed || density));
-  const [lo, hi] = COUNT[density];
-  const count = lo + Math.floor(rnd() * (hi - lo + 1));
+  const plan = PLAN[density];
 
-  // Pick `count` distinct slots so pieces spread around the edges.
-  const available = [...SLOTS];
-  const placements: React.CSSProperties[] = [];
-  for (let i = 0; i < count && available.length > 0; i++) {
-    const idx = Math.floor(rnd() * available.length);
-    placements.push(available.splice(idx, 1)[0]);
+  // Pick which corners to populate (distinct, so items stay far apart).
+  const pool = [...CORNERS];
+  const corners: React.CSSProperties[] = [];
+  for (let i = 0; i < plan.corners && pool.length > 0; i++) {
+    corners.push(pool.splice(Math.floor(rnd() * pool.length), 1)[0]);
   }
+
+  // At most one minifigure, only when 2+ corners are used — it takes a whole
+  // corner to itself (no brick stack there), so it can't overlap bricks.
+  const minifigCorner = plan.corners >= 2 && rnd() < 0.55 ? corners.length - 1 : -1;
 
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-      {placements.map((pos, i) => {
-        const isMinifig = rnd() < 0.22;
-        const rotation = Math.round(rnd() * 20 - 10);
-        const color = PALETTE[Math.floor(rnd() * PALETTE.length)];
-        const studs = 2 + Math.floor(rnd() * 2);
-        const width = 44 + Math.floor(rnd() * 36);
-        const legColor = PALETTE[Math.floor(rnd() * PALETTE.length)];
+      {corners.map((pos, i) => {
+        const rotation = Math.round(rnd() * 10 - 5);
+        const baseStyle = { ...pos, transform: `rotate(${rotation}deg)` };
+
+        if (i === minifigCorner) {
+          const torso = PALETTE[Math.floor(rnd() * PALETTE.length)];
+          const legs = PALETTE[Math.floor(rnd() * PALETTE.length)];
+          return (
+            <div key={i} className="absolute hidden sm:block" style={baseStyle}>
+              <Minifigure width={50} torso={torso} arms={torso} legs={legs} hips={legs} />
+            </div>
+          );
+        }
+
+        const n = plan.stack[0] + Math.floor(rnd() * (plan.stack[1] - plan.stack[0] + 1));
+        const bricks = Array.from({ length: n }, () => ({
+          color: PALETTE[Math.floor(rnd() * PALETTE.length)],
+          studs: 2 + Math.floor(rnd() * 2),
+          width: 52 + Math.floor(rnd() * 24),
+        }));
         return (
-          <div
-            key={i}
-            className="absolute hidden sm:block"
-            style={{ ...pos, transform: `rotate(${rotation}deg)` }}
-          >
-            {isMinifig ? (
-              <Minifigure width={46} torso={color} arms={color} legs={legColor} hips={legColor} />
-            ) : (
-              <Brick color={color} studs={studs} width={width} />
-            )}
+          <div key={i} className="absolute hidden flex-col items-center sm:flex" style={baseStyle}>
+            {bricks.map((b, j) => (
+              // negative margin tucks each brick's studs under the one above —
+              // reads as a connected stack rather than loose pieces.
+              <div key={j} style={{ marginTop: j === 0 ? 0 : -4 }}>
+                <Brick color={b.color} studs={b.studs} width={b.width} />
+              </div>
+            ))}
           </div>
         );
       })}
