@@ -6,7 +6,7 @@ export function Contact() {
   return (
     <Section id="contact" density="high">
       <h2 className="font-display text-3xl font-bold text-fg">Contact</h2>
-      <p className="mt-4 text-muted">Open to new opportunities — let's talk.</p>
+      <p className="mt-4 text-muted">Open to new opportunities. Let's talk.</p>
       <div className="mt-6 flex flex-wrap gap-4">
         <a href={`mailto:${email}`} className="text-accent hover:underline" aria-label="Email">Email</a>
         {github && <a href={github} className="text-accent hover:underline">GitHub</a>}
