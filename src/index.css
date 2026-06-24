@@ -40,9 +40,10 @@ body {
     --color-border: var(--border);
     --color-destructive: var(--destructive);
     --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
+    /* --color-accent / --color-muted intentionally NOT mapped to shadcn's grayscale
+       tokens here — our theme owns those (see src/theme/themes.css @theme block),
+       and this inline block is imported after themes.css so it would otherwise win. */
     --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-secondary: var(--secondary);
     --color-primary-foreground: var(--primary-foreground);
