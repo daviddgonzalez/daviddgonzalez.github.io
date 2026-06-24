@@ -11,4 +11,5 @@ export const profile: Profile = {
     linkedin: "https://linkedin.com/in/david-d-gonzalez",
   },
   resumeUrl: "/resume.pdf",
+  photoUrl: "/pfp.jpeg",
 };

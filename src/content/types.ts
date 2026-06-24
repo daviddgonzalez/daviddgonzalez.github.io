@@ -3,7 +3,7 @@ export type BuildKey = "computer" | "phone" | "brickLogo" | "stack";
 export interface Social { github?: string; linkedin?: string; email: string; }
 export interface Profile {
   name: string; role: string; tagline: string; bio: string;
-  socials: Social; resumeUrl: string;
+  socials: Social; resumeUrl: string; photoUrl?: string;
 }
 export interface Project {
   id: string; name: string; blurb: string; description: string;
