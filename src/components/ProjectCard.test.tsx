@@ -4,7 +4,7 @@ import type { Project } from "@/content/types";
 
 const p: Project = {
   id: "x", name: "DevDash", blurb: "A dashboard.", description: "...",
-  tech: ["React", "Node"], links: { repo: "https://example.com" }, legoBuild: "computer",
+  tech: ["React", "Node"], links: { repo: "https://example.com" }, legoBuild: "submarine",
 };
 
 test("renders project details, tags, link and an svg build", () => {

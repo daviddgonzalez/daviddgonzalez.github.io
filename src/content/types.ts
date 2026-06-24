@@ -1,4 +1,4 @@
-export type BuildKey = "computer" | "phone" | "brickLogo" | "stack";
+export type BuildKey = "submarine" | "receipt" | "pose" | "tree" | "judge" | "chalkboard" | "meeting" | "stack";
 
 export interface Social { github?: string; linkedin?: string; email: string; }
 export interface Profile {
@@ -19,4 +19,4 @@ export interface Education {
   gpa?: string; coursework: string[];
 }
 
-export const BUILD_KEYS: BuildKey[] = ["computer", "phone", "brickLogo", "stack"];
+export const BUILD_KEYS: BuildKey[] = ["submarine", "receipt", "pose", "tree", "judge", "chalkboard", "meeting", "stack"];

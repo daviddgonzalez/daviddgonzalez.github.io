@@ -8,7 +8,7 @@ export const experience: Role[] = [
     period: "May 2026 – Present",
     summary:
       "Built an empirical compatibility harness from scratch to evaluate AI-agent skills, pairing deterministic outcomes with an LLM judge. Raised test coverage by up to 106% with regression tests for QA-found bugs, and lazy-loaded 93% of ESM modules while cutting redundant git subprocess calls to accelerate command execution by up to 85%.",
-    legoBuild: "computer",
+    legoBuild: "judge",
   },
   {
     id: "mil",
@@ -17,7 +17,7 @@ export const experience: Role[] = [
     period: "May 2026 – Present",
     summary:
       "Authored and tested ROS XML mission plans directing an autonomous submarine's robotic gripper to align with, grasp, and manipulate objects. Designed software consuming camera, hydrophone, and onboard-sensor data from ROS subscriber nodes to orient the sub throughout each mission.",
-    legoBuild: "stack",
+    legoBuild: "submarine",
   },
   {
     id: "ta-discrete",
@@ -26,7 +26,7 @@ export const experience: Role[] = [
     period: "Jan 2026 – Present",
     summary:
       "Mentored 55+ students through weekly discussion sections; section students scored 5% higher than the course average on exams. Lesson-planned and authored over 33% of exam materials.",
-    legoBuild: "brickLogo",
+    legoBuild: "chalkboard",
   },
   {
     id: "acm-design",
@@ -35,6 +35,6 @@ export const experience: Role[] = [
     period: "Apr 2026 – Present",
     summary:
       "Built data-visualization components surfacing engagement trends from historical attendance records for chapter leadership, and a secure location-based check-in system that automates real-time attendance — launching in fall to 300+ members across partnered clubs.",
-    legoBuild: "phone",
+    legoBuild: "meeting",
   },
 ];
