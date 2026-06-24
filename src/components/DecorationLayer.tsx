@@ -1,5 +1,5 @@
 import { useTheme } from "@/theme/useTheme";
-import { Brick } from "@/lego/Brick";
+import { BrickColumn } from "@/lego/BrickColumn";
 import { Minifigure } from "@/lego/Minifigure";
 
 export type Density = "sparse" | "normal" | "high" | "max";
@@ -87,20 +87,12 @@ export function DecorationLayer({
         }
 
         const n = plan.stack[0] + Math.floor(rnd() * (plan.stack[1] - plan.stack[0] + 1));
-        const bricks = Array.from({ length: n }, () => ({
-          color: PALETTE[Math.floor(rnd() * PALETTE.length)],
-          studs: 2 + Math.floor(rnd() * 2),
-          width: 52 + Math.floor(rnd() * 24),
-        }));
+        const colors = Array.from({ length: n }, () => PALETTE[Math.floor(rnd() * PALETTE.length)]);
+        const width = 54 + Math.floor(rnd() * 20);
+        const studs = 2 + Math.floor(rnd() * 2);
         return (
-          <div key={i} className="absolute hidden flex-col items-center sm:flex" style={baseStyle}>
-            {bricks.map((b, j) => (
-              // negative margin tucks each brick's studs under the one above —
-              // reads as a connected stack rather than loose pieces.
-              <div key={j} style={{ marginTop: j === 0 ? 0 : -4 }}>
-                <Brick color={b.color} studs={b.studs} width={b.width} />
-              </div>
-            ))}
+          <div key={i} className="absolute hidden sm:block" style={baseStyle}>
+            <BrickColumn colors={colors} width={width} studs={studs} />
           </div>
         );
       })}

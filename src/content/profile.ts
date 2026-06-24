@@ -4,7 +4,7 @@ export const profile: Profile = {
   name: "David Gonzalez",
   role: "Software Engineer",
   tagline: "CS student at the University of Florida. I build reliable, well-tested software, currently for AI tooling and autonomous robots.",
-  bio: "I'm a computer science student at the University of Florida, where I'm holding a 4.0 and minoring in math. I like building software all the way through, from the messy backend to the part people actually click. These days I intern at AvonRisk and do research at UF's Machine Intelligence Laboratory, so my week swings between AI-agent tooling and an autonomous submarine. I write a lot of tests, I chase down slow code, and I'd rather ship something solid than something clever.",
+  bio: "I'm a computer science student at the University of Florida, maintaining a 4.0 GPA with a minor in mathematics. I enjoy building software end to end, from backend services to the interfaces people use. I'm currently a software engineering intern at AvonRisk and an undergraduate researcher at UF's Machine Intelligence Laboratory, where my work spans AI-agent tooling and autonomous robotics. Above all I care about writing well-tested code and making it fast and reliable.",
   socials: {
     email: "ddgonzalez.cs@gmail.com",
     github: "https://github.com/daviddgonzalez",
