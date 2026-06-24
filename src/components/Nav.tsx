@@ -2,6 +2,7 @@ import { ThemeToggle } from "@/theme/ThemeToggle";
 
 const LINKS = [
   ["About", "#about"],
+  ["Education", "#education"],
   ["Projects", "#projects"],
   ["Experience", "#experience"],
   ["Skills", "#skills"],

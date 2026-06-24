@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/theme/ThemeProvider";
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/sections/Hero";
 import { About } from "@/sections/About";
+import { Education } from "@/sections/Education";
 import { Projects } from "@/sections/Projects";
 import { Experience } from "@/sections/Experience";
 import { Skills } from "@/sections/Skills";
@@ -15,6 +16,7 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        <Education />
         <Projects />
         <Experience />
         <Skills />

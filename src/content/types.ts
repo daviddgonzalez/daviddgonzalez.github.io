@@ -14,5 +14,9 @@ export interface Role {
   summary: string; legoBuild?: BuildKey;
 }
 export interface Skill { label: string; category: string; }
+export interface Education {
+  school: string; degree: string; location: string; period: string;
+  gpa?: string; coursework: string[];
+}
 
 export const BUILD_KEYS: BuildKey[] = ["computer", "phone", "brickLogo", "stack"];
