@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Section } from "@/components/Section";
 import { profile } from "@/content/profile";
 
@@ -28,6 +29,32 @@ function LinkedinIcon({ className }: { className?: string }) {
   );
 }
 
+function EmailLink({ email }: { email: string }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    navigator.clipboard
+      ?.writeText(email)
+      .then(() => {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1800);
+      })
+      .catch(() => {});
+  };
+  return (
+    <a
+      href={`mailto:${email}`}
+      onClick={copy}
+      className="group inline-flex items-center gap-3 text-fg hover:text-accent"
+    >
+      <MailIcon className="h-5 w-5 text-muted group-hover:text-accent" />
+      <span>{email}</span>
+      <span aria-live="polite" className="text-xs font-medium text-accent">
+        {copied ? "Copied!" : ""}
+      </span>
+    </a>
+  );
+}
+
 export function Contact() {
   const { email, github, linkedin } = profile.socials;
   return (
@@ -42,10 +69,7 @@ export function Contact() {
 
         <ul className="space-y-4 sm:justify-self-end">
           <li>
-            <a href={`mailto:${email}`} className="group inline-flex items-center gap-3 text-fg hover:text-accent">
-              <MailIcon className="h-5 w-5 text-muted group-hover:text-accent" />
-              <span>{email}</span>
-            </a>
+            <EmailLink email={email} />
           </li>
           {github && (
             <li>
