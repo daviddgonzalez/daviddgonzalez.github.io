@@ -5,6 +5,7 @@
   --color-fg: #f5f6f8;
   --color-muted: #9aa0ab;
   --color-accent: #5b8cff;
+  --color-on-accent: #0a0b0f; /* readable text on top of accent fills (AA) */
   --font-display: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
   --font-body: ui-sans-serif, system-ui, -apple-system, sans-serif;
   --radius-brand: 10px;
@@ -16,7 +17,8 @@
   --color-surface: #fffdf5;
   --color-fg: #1a1a1a;
   --color-muted: #5a4a00;
-  --color-accent: #d01012;
+  --color-accent: #a30b0d; /* darkened from #d01012 for AA contrast on the yellow bg */
+  --color-on-accent: #ffffff; /* readable text on top of accent fills (AA) */
   --font-display: Verdana, Geneva, "DejaVu Sans", sans-serif;
   --font-body: Verdana, Geneva, sans-serif;
   --radius-brand: 6px;
@@ -29,6 +31,7 @@
   --color-fg: var(--color-fg);
   --color-muted: var(--color-muted);
   --color-accent: var(--color-accent);
+  --color-on-accent: var(--color-on-accent);
   --font-display: var(--font-display);
   --font-body: var(--font-body);
 }
