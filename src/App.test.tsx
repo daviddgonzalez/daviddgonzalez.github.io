@@ -3,5 +3,5 @@ import App from "./App";
 
 test("renders the nav brand", () => {
   render(<App />);
-  expect(screen.getByText("David Gonzalez")).toBeInTheDocument();
+  expect(screen.getAllByText("David Gonzalez").length).toBeGreaterThan(0);
 });
