@@ -23,7 +23,7 @@ export const experience: Role[] = [
     id: "ta-discrete",
     company: "University of Florida",
     title: "Teaching Assistant, Discrete Structures",
-    period: "Jan 2026 – Present",
+    period: "Jan 2026 – May 2026",
     summary:
       "I run weekly discussion sections for 55+ students in Discrete Structures. My sections averaged 5% above the rest of the course on exams, and I write more than a third of the exam questions.",
     legoBuild: "chalkboard",
