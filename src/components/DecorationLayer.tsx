@@ -1,27 +1,37 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "@/theme/useTheme";
 import { BrickColumn } from "@/lego/BrickColumn";
+import { BrickPile, type Orient } from "@/lego/BrickPile";
 import { Minifigure } from "@/lego/Minifigure";
 
 export type Density = "sparse" | "normal" | "high" | "max";
 
+function prefersReducedMotion(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 // Full Lego palette so colors feel naturally varied across sections.
 const PALETTE = ["#d01012", "#006cb7", "#2f9e44", "#f6a700", "#7048b0", "#e8590c"];
 
-// One anchor per corner. Each populated corner gets exactly ONE item — a
-// connected brick stack OR a minifigure — so a minifig never overlaps bricks.
-const CORNERS: React.CSSProperties[] = [
-  { left: 14, top: 14 },
-  { right: 14, top: 14 },
-  { left: 16, bottom: 14 },
-  { right: 16, bottom: 14 },
+// One anchor per corner, each carrying the orientation its brick pile hugs.
+type CornerDef = { pos: React.CSSProperties; orient: Orient };
+const CORNERS: CornerDef[] = [
+  { pos: { left: 14, top: 14 }, orient: "tl" },
+  { pos: { right: 14, top: 14 }, orient: "tr" },
+  { pos: { left: 16, bottom: 14 }, orient: "bl" },
+  { pos: { right: 16, bottom: 14 }, orient: "br" },
 ];
 
-// How many corners to populate, and how many bricks per stack, per density.
-const PLAN: Record<Density, { corners: number; stack: [number, number] }> = {
-  sparse: { corners: 1, stack: [2, 3] },
-  normal: { corners: 2, stack: [2, 3] },
-  high: { corners: 3, stack: [3, 4] },
-  max: { corners: 4, stack: [4, 6] },
+// How many corners to populate, and how big each triangular pile is, per
+// density. The hero is "max", so the top of the page gets the biggest piles.
+const PLAN: Record<Density, { corners: number; size: number }> = {
+  sparse: { corners: 1, size: 2 },
+  normal: { corners: 2, size: 3 },
+  high: { corners: 3, size: 4 },
+  max: { corners: 4, size: 5 },
 };
 
 // Deterministic seed from a string so each section's arrangement is stable
@@ -54,21 +64,30 @@ export function DecorationLayer({
   density?: Density;
 }) {
   const { theme } = useTheme();
+
+  // The bricks "assemble" (drop + snap in) whenever the Lego decoration
+  // appears: on every page load/refresh and when switching into the Lego
+  // theme. The CSS animation fires on element mount; we just decide whether
+  // the `brick-drop` class is present. Skipped under reduced-motion. Hooks
+  // must run before the early return, so they stay above the theme guard.
+  const [assemble, setAssemble] = useState(
+    () => theme === "lego" && !prefersReducedMotion()
+  );
+  useEffect(() => {
+    setAssemble(theme === "lego" && !prefersReducedMotion());
+  }, [theme]);
+
   if (theme !== "lego") return null;
 
   const rnd = mulberry32(hashSeed(seed || density));
   const plan = PLAN[density];
 
-  // Pick which corners to populate (distinct, so items stay far apart).
+  // Pick which corners to populate (distinct, so piles stay far apart).
   const pool = [...CORNERS];
-  const corners: React.CSSProperties[] = [];
+  const corners: CornerDef[] = [];
   for (let i = 0; i < plan.corners && pool.length > 0; i++) {
     corners.push(pool.splice(Math.floor(rnd() * pool.length), 1)[0]);
   }
-
-  // At most one minifigure, only when 2+ corners are used — it takes a whole
-  // corner to itself (no brick stack there), so it can't overlap bricks.
-  const minifigCorner = plan.corners >= 2 && rnd() < 0.55 ? corners.length - 1 : -1;
 
   // Mobile gets a couple of small bricks in the BOTTOM corners — they sit in
   // the section's bottom padding (clear of the text) and never hide behind the
@@ -90,34 +109,47 @@ export function DecorationLayer({
         return (
           <div
             key={`m${k}`}
-            className="absolute sm:hidden"
-            style={{ ...pos, transform: `rotate(${k ? 4 : -4}deg)` }}
+            className={`absolute sm:hidden${assemble ? " brick-drop" : ""}`}
+            style={{
+              ...pos,
+              rotate: `${k ? 4 : -4}deg`,
+              ...(assemble ? { animationDelay: `${k * 90}ms` } : {}),
+            }}
           >
             <BrickColumn colors={colors} width={42} studs={3} />
           </div>
         );
       })}
-      {corners.map((pos, i) => {
-        const rotation = Math.round(rnd() * 10 - 5);
-        const baseStyle = { ...pos, transform: `rotate(${rotation}deg)` };
+      {corners.map((corner, i) => {
+        const rotation = Math.round(rnd() * 8 - 4);
+        const baseStyle: React.CSSProperties = {
+          ...corner.pos,
+          rotate: `${rotation}deg`,
+          ...(assemble ? { animationDelay: `${i * 90}ms` } : {}),
+        };
+        const cls = `absolute hidden sm:block${assemble ? " brick-drop" : ""}`;
+        const pileSeed = Math.floor(rnd() * 1e9);
 
-        if (i === minifigCorner) {
+        // The waving minifigure stands on the hero's bottom-left pile — the
+        // top of the page, bottom-left corner.
+        if (corner.orient === "bl" && seed === "hero") {
           const torso = PALETTE[Math.floor(rnd() * PALETTE.length)];
           const legs = PALETTE[Math.floor(rnd() * PALETTE.length)];
           return (
-            <div key={i} className="absolute hidden sm:block" style={baseStyle}>
-              <Minifigure width={50} torso={torso} arms={torso} legs={legs} hips={legs} />
+            <div key={i} className={cls} style={baseStyle}>
+              <div className="flex flex-col items-start">
+                <div style={{ marginBottom: -10, marginLeft: 10 }}>
+                  <Minifigure wave width={52} torso={torso} arms={torso} legs={legs} hips={legs} />
+                </div>
+                <BrickPile orient="bl" size={plan.size} seed={pileSeed} palette={PALETTE} />
+              </div>
             </div>
           );
         }
 
-        const n = plan.stack[0] + Math.floor(rnd() * (plan.stack[1] - plan.stack[0] + 1));
-        const colors = Array.from({ length: n }, () => PALETTE[Math.floor(rnd() * PALETTE.length)]);
-        const width = 54 + Math.floor(rnd() * 20);
-        const studs = 2 + Math.floor(rnd() * 2);
         return (
-          <div key={i} className="absolute hidden sm:block" style={baseStyle}>
-            <BrickColumn colors={colors} width={width} studs={studs} />
+          <div key={i} className={cls} style={baseStyle}>
+            <BrickPile orient={corner.orient} size={plan.size} seed={pileSeed} palette={PALETTE} />
           </div>
         );
       })}

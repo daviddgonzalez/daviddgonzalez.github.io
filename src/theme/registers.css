@@ -1,0 +1,110 @@
+/* Per-theme "register": the two themes diverge in *feel*, not just color.
+   - default = flat terminal / engineer
+   - lego    = chunky tactile play-table
+   Color/font tokens live in themes.css; this file owns the component feel. */
+
+/* ---------- Tactile interactive elements (buttons, toggle) ----------
+   Lego: a hard bottom "stud" shadow gives brick depth; the element sinks on
+   click like pressing a key. Spring easing on the way down. Default theme
+   leaves these flat (its utilities own the hover). */
+[data-theme="lego"] .tactile {
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.28);
+  transition:
+    transform 120ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 120ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 120ms ease;
+}
+[data-theme="lego"] .tactile:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.28);
+}
+[data-theme="lego"] .tactile:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.28);
+}
+
+/* ---------- Card surfaces ----------
+   Lego: cards read as bricks — thicker outline + a hard drop. Default theme
+   keeps its flat soft shadow (no rule here). */
+[data-theme="lego"] .brick-card {
+  border: 2px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* ---------- Dark: terminal-prompt eyebrow ----------
+   The hero role line gets a "> " prompt and a blinking caret, only in the
+   engineer register. Lego renders the same text plainly. */
+[data-theme="default"] .terminal-eyebrow::before {
+  content: "> ";
+  color: var(--color-accent);
+}
+[data-theme="default"] .terminal-eyebrow::after {
+  content: "▌";
+  margin-left: 2px;
+  color: var(--color-accent);
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Lego: one-time "assemble" drop ----------
+   Bricks fall in from above and settle with a slight overshoot. `translate`
+   is animated independently of each piece's inline `rotate`, so they compose.
+   Stagger comes from per-piece animation-delay set in DecorationLayer. */
+@keyframes brick-drop {
+  0% {
+    translate: 0 -48px;
+    opacity: 0;
+  }
+  70% {
+    translate: 0 3px;
+    opacity: 1;
+  }
+  100% {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+.brick-drop {
+  animation: brick-drop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ---------- Lego: minifigure wave ----------
+   The raised arm rocks back and forth around the shoulder. transform-origin is
+   in the arm group's own box (fill-box), placed near the shoulder. */
+.mf-arm-wave {
+  transform-box: fill-box;
+  transform-origin: 7% 88%;
+  animation: mf-wave 1.3s ease-in-out infinite;
+}
+@keyframes mf-wave {
+  0%,
+  100% {
+    rotate: -10deg;
+  }
+  50% {
+    rotate: 12deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme="lego"] .tactile {
+    transition: none;
+  }
+  [data-theme="lego"] .tactile:hover,
+  [data-theme="lego"] .tactile:active {
+    transform: none;
+  }
+  [data-theme="default"] .terminal-eyebrow::after {
+    animation: none;
+  }
+  .brick-drop {
+    animation: none;
+  }
+  .mf-arm-wave {
+    animation: none;
+  }
+}

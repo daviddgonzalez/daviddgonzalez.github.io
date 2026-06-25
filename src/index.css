@@ -2,7 +2,17 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+/* Dark theme: terminal register (JetBrains Mono headings + IBM Plex Sans body) */
+@import "@fontsource-variable/jetbrains-mono";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+/* Lego theme: play-table register (Fredoka display + Nunito body) */
+@import "@fontsource-variable/fredoka";
+@import "@fontsource-variable/nunito";
 @import "./theme/themes.css";
+@import "./theme/registers.css";
 
 @custom-variant dark (&:is(.dark *));
 

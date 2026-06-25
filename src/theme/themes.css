@@ -4,10 +4,10 @@
   --color-surface: #14161c;
   --color-fg: #f5f6f8;
   --color-muted: #9aa0ab;
-  --color-accent: #5b8cff;
+  --color-accent: #22c55e; /* terminal/"run" green — reads as engineer, ~8:1 on bg (AA). Revert to #5b8cff for blue. */
   --color-on-accent: #0a0b0f; /* readable text on top of accent fills (AA) */
-  --font-display: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", sans-serif;
-  --font-body: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: "JetBrains Mono Variable", ui-monospace, "SFMono-Regular", monospace;
+  --font-body: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
   --radius-brand: 10px;
   --bg-image: radial-gradient(rgba(255,255,255,0.10) 1px, transparent 1px);
   --bg-size: 18px 18px;
@@ -19,8 +19,8 @@
   --color-muted: #5a4a00;
   --color-accent: #a30b0d; /* darkened from #d01012 for AA contrast on the yellow bg */
   --color-on-accent: #ffffff; /* readable text on top of accent fills (AA) */
-  --font-display: Verdana, Geneva, "DejaVu Sans", sans-serif;
-  --font-body: Verdana, Geneva, sans-serif;
+  --font-display: "Fredoka Variable", "Verdana", ui-rounded, sans-serif;
+  --font-body: "Nunito Variable", "Verdana", ui-sans-serif, sans-serif;
   --radius-brand: 6px;
   --bg-image: radial-gradient(circle at 50% 35%, rgba(255,255,255,0.22), transparent 60%);
   --bg-size: cover;

@@ -7,7 +7,7 @@ export function Education() {
       <h2 className="font-display text-3xl font-bold text-fg">Education</h2>
       <div className="mt-8 space-y-6">
         {education.map((e) => (
-          <article key={e.school} className="rounded-[var(--radius-brand)] bg-surface p-6">
+          <article key={e.school} className="brick-card rounded-[var(--radius-brand)] bg-surface p-6">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h3 className="font-display text-xl font-bold text-fg">{e.school}</h3>
               <p className="text-sm text-muted">{e.location} · {e.period}</p>

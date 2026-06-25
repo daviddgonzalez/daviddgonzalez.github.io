@@ -8,7 +8,7 @@ export function Experience() {
     <Section id="experience" density="sparse">
       <div className="flex items-center justify-between">
         <h2 className="font-display text-3xl font-bold text-fg">Experience</h2>
-        <a href={profile.resumeUrl} className="text-sm text-accent hover:underline" download>
+        <a href={profile.resumeUrl} className="text-sm text-accent underline-offset-2 transition hover:underline hover:opacity-80" download>
           Download résumé
         </a>
       </div>

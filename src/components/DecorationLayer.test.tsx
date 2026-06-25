@@ -17,3 +17,33 @@ test("renders decoration in lego theme", () => {
   expect(container.querySelector('[aria-hidden="true"]')).toBeTruthy();
   expect(container.querySelector("svg")).toBeInTheDocument();
 });
+
+test("plays the assemble drop whenever the lego decoration mounts", () => {
+  localStorage.setItem(THEME_STORAGE_KEY, "lego");
+  const { container } = render(<ThemeProvider><DecorationLayer /></ThemeProvider>);
+  expect(container.querySelector(".brick-drop")).toBeTruthy();
+});
+
+test("skips the assemble drop when reduced motion is preferred", () => {
+  localStorage.setItem(THEME_STORAGE_KEY, "lego");
+  const original = window.matchMedia;
+  window.matchMedia = ((query: string) => ({
+    matches: true,
+    media: query,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent() {
+      return false;
+    },
+  })) as unknown as typeof window.matchMedia;
+  try {
+    const { container } = render(<ThemeProvider><DecorationLayer /></ThemeProvider>);
+    expect(container.querySelector(".brick-drop")).toBeNull();
+    expect(container.querySelector("svg")).toBeInTheDocument();
+  } finally {
+    window.matchMedia = original;
+  }
+});
