@@ -1,3 +1,5 @@
+import { Climber } from "../Climber";
+
 export function Tree({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 190 180" width={190} height={180} className={className} aria-hidden="true" focusable="false">
@@ -21,6 +23,8 @@ export function Tree({ className }: { className?: string }) {
       {/* leaves */}
       <g fill="#2f9e44"><rect x="26" y="140" width="28" height="16" rx="3"/><rect x="66" y="140" width="28" height="16" rx="3"/><rect x="96" y="140" width="28" height="16" rx="3"/><rect x="136" y="140" width="28" height="16" rx="3"/></g>
       <g fill="#54bf69"><ellipse cx="34" cy="140" rx="5" ry="2.2"/><ellipse cx="46" cy="140" rx="5" ry="2.2"/><ellipse cx="74" cy="140" rx="5" ry="2.2"/><ellipse cx="86" cy="140" rx="5" ry="2.2"/><ellipse cx="104" cy="140" rx="5" ry="2.2"/><ellipse cx="116" cy="140" rx="5" ry="2.2"/><ellipse cx="144" cy="140" rx="5" ry="2.2"/><ellipse cx="156" cy="140" rx="5" ry="2.2"/></g>
+      {/* a minifigure walks the tree (DFS) — Lego theme only */}
+      <Climber className="tree-walker" torso="#f6a700" />
     </svg>
   );
 }

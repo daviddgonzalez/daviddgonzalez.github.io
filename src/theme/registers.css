@@ -90,6 +90,218 @@
   }
 }
 
+/* ---------- Lego build micro-animations ----------
+   Each project/role illustration has a signature motion. The continuous "idle"
+   ones (spin/rise/twinkle) run only in the Lego theme so the dark/engineer
+   register stays calm; on card hover (`.lego-card:hover`) every build comes
+   alive in BOTH themes. Individual transform props (rotate/scale/translate) are
+   used so they compose with each SVG's own `transform` attribute. */
+.lego-spin,
+.lego-twinkle,
+.lego-tap,
+.lego-bounce,
+.lego-grow,
+.lego-bob,
+.lego-rise {
+  transform-box: fill-box;
+}
+.lego-spin {
+  transform-origin: 50% 50%;
+}
+.lego-twinkle {
+  transform-origin: 50% 50%;
+}
+.lego-tap {
+  transform-origin: 65% 85%;
+}
+.lego-bounce,
+.lego-grow {
+  transform-origin: 50% 100%;
+}
+
+/* Idle — Lego theme only, gentle and slow. */
+[data-theme="lego"] .lego-spin {
+  animation: lego-spin 4.5s linear infinite;
+}
+[data-theme="lego"] .lego-rise {
+  animation: lego-rise 3s ease-in-out infinite;
+}
+[data-theme="lego"] .lego-twinkle {
+  animation: lego-twinkle 2.6s ease-in-out infinite;
+}
+
+/* Hover — both themes; overrides idle (faster) and adds hover-only motions. */
+.lego-card:hover .lego-spin {
+  animation: lego-spin 0.9s linear infinite;
+}
+.lego-card:hover .lego-rise {
+  animation: lego-rise 1.1s ease-in-out infinite;
+}
+.lego-card:hover .lego-twinkle {
+  animation: lego-twinkle 0.8s ease-in-out infinite;
+}
+.lego-card:hover .lego-tap {
+  animation: lego-tap 0.55s ease-in-out;
+}
+.lego-card:hover .lego-bob {
+  animation: lego-bob 1.1s ease-in-out infinite;
+}
+.lego-card:hover .lego-bounce {
+  animation: lego-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lego-card:hover .lego-grow {
+  animation: lego-grow 0.9s ease-out;
+}
+
+@keyframes lego-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes lego-rise {
+  0% {
+    translate: 0 4px;
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    translate: 0 -10px;
+    opacity: 0;
+  }
+}
+@keyframes lego-twinkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    scale: 0.9;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.08;
+  }
+}
+@keyframes lego-tap {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  30% {
+    rotate: 22deg;
+  }
+  55% {
+    rotate: 0deg;
+  }
+  72% {
+    rotate: 9deg;
+  }
+}
+@keyframes lego-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -4px;
+  }
+}
+@keyframes lego-bounce {
+  0% {
+    scale: 1;
+  }
+  40% {
+    scale: 1.18;
+  }
+  100% {
+    scale: 1;
+  }
+}
+@keyframes lego-grow {
+  0% {
+    scale: 1 0.6;
+  }
+  60% {
+    scale: 1 1.08;
+  }
+  100% {
+    scale: 1 1;
+  }
+}
+
+/* ---------- Character animations: reps & graph traversals ----------
+   MyPose's athlete does reps (the skeleton overlay rides along since it's in
+   the same group). The Tree and Chalkboard each get a tiny climber that walks
+   the structure node-to-node. Traversals are Lego-only — hidden in the dark
+   register; the rep idles in Lego and speeds up on hover. */
+.pose-rep {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+[data-theme="lego"] .pose-rep {
+  animation: pose-rep 1.9s ease-in-out infinite;
+}
+.lego-card:hover .pose-rep {
+  animation: pose-rep 0.95s ease-in-out infinite;
+}
+@keyframes pose-rep {
+  0%,
+  100% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+  50% {
+    translate: 0 5px;
+    scale: 1 0.96;
+  }
+}
+
+/* Climbers rest on the first node; hidden entirely in the dark register. */
+.tree-walker {
+  translate: 95px 28px;
+}
+.graph-walker {
+  translate: 62px 52px;
+}
+[data-theme="default"] .tree-walker,
+[data-theme="default"] .graph-walker {
+  display: none;
+}
+[data-theme="lego"] .tree-walker {
+  animation: tree-walk 9s ease-in-out infinite;
+}
+[data-theme="lego"] .graph-walker {
+  animation: graph-walk 8s ease-in-out infinite;
+}
+.lego-card:hover .tree-walker {
+  animation-duration: 4.5s;
+}
+.lego-card:hover .graph-walker {
+  animation-duration: 4s;
+}
+@keyframes tree-walk {
+  0% { translate: 95px 28px; }
+  10% { translate: 60px 92px; }
+  20% { translate: 40px 140px; }
+  30% { translate: 80px 140px; }
+  40% { translate: 60px 92px; }
+  50% { translate: 130px 92px; }
+  60% { translate: 110px 140px; }
+  70% { translate: 150px 140px; }
+  80% { translate: 130px 92px; }
+  90%,
+  100% { translate: 95px 28px; }
+}
+@keyframes graph-walk {
+  0% { translate: 62px 52px; }
+  16% { translate: 96px 46px; }
+  33% { translate: 124px 64px; }
+  50% { translate: 78px 84px; }
+  66% { translate: 112px 92px; }
+  83% { translate: 78px 84px; }
+  100% { translate: 62px 52px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-theme="lego"] .tactile {
     transition: none;
@@ -106,5 +318,18 @@
   }
   .mf-arm-wave {
     animation: none;
+  }
+  /* All build micro-animations off (covers idle and hover via !important). */
+  .lego-spin,
+  .lego-rise,
+  .lego-twinkle,
+  .lego-tap,
+  .lego-bob,
+  .lego-bounce,
+  .lego-grow,
+  .pose-rep,
+  .tree-walker,
+  .graph-walker {
+    animation: none !important;
   }
 }

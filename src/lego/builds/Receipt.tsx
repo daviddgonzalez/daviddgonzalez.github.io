@@ -2,10 +2,12 @@ export function Receipt({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 170 180" width={170} height={180} className={className} aria-hidden="true" focusable="false">
       {/* vision sparkles (LLM extraction) */}
-      <g fill="#006cb7"><path d="M120 26 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 Z"/></g>
-      <g fill="#ffd21f"><path d="M138 44 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 Z"/></g>
+      <g className="lego-twinkle">
+        <g fill="#006cb7"><path d="M120 26 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 Z"/></g>
+        <g fill="#ffd21f"><path d="M138 44 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2 Z"/></g>
+      </g>
       {/* receipt ribbon curling from the slot */}
-      <g transform="rotate(-6 80 70)">
+      <g className="lego-bob" transform="rotate(-6 80 70)">
         <path d="M52 30 h56 v92 l-7 -5 -7 5 -7 -5 -7 5 -7 -5 -7 5 -7 -5 -7 5 Z" fill="#f4f1ea" stroke="#c9c4b4" strokeWidth="2"/>
         <g stroke="#c9c4b4" strokeWidth="2.4" strokeLinecap="round">
           <line x1="60" y1="44" x2="100" y2="44"/><line x1="60" y1="54" x2="92" y2="54"/>

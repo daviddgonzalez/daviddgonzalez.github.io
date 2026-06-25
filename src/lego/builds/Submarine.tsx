@@ -2,14 +2,16 @@ export function Submarine({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 250 200" width={250} height={200} className={className} aria-hidden="true" focusable="false">
       {/* bubbles */}
-      <g fill="#bfe3ff"><circle cx="50" cy="52" r="3.2"/><circle cx="43" cy="40" r="2.2"/><circle cx="54" cy="30" r="1.6"/></g>
+      <g className="lego-rise" fill="#bfe3ff"><circle cx="50" cy="52" r="3.2"/><circle cx="43" cy="40" r="2.2"/><circle cx="54" cy="30" r="1.6"/></g>
       {/* propeller (rear-left) with shaft attaching to hull */}
       <g>
         <rect x="40" y="86" width="18" height="6" rx="2" fill="#565d68"/>
-        <ellipse cx="40" cy="74" rx="5" ry="13" fill="#ffd21f"/>
-        <ellipse cx="40" cy="102" rx="5" ry="13" fill="#ffd21f"/>
-        <ellipse cx="40" cy="88" rx="5" ry="11" fill="#e6bd00"/>
-        <circle cx="40" cy="88" r="4.5" fill="#3a3f47"/>
+        <g className="lego-spin">
+          <ellipse cx="40" cy="74" rx="5" ry="13" fill="#ffd21f"/>
+          <ellipse cx="40" cy="102" rx="5" ry="13" fill="#ffd21f"/>
+          <ellipse cx="40" cy="88" rx="5" ry="11" fill="#e6bd00"/>
+          <circle cx="40" cy="88" r="4.5" fill="#3a3f47"/>
+        </g>
       </g>
       {/* tail dive fin */}
       <path d="M62 66 L50 48 L72 62 Z" fill="#006cb7"/>

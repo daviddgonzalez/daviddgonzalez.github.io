@@ -1,3 +1,5 @@
+import { Climber } from "../Climber";
+
 export function Chalkboard({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 190 180" width={190} height={180} className={className} aria-hidden="true" focusable="false">
@@ -15,11 +17,13 @@ export function Chalkboard({ className }: { className?: string }) {
       </g>
       <g fill="#eafff5"><circle cx="62" cy="52" r="6"/><circle cx="96" cy="46" r="6"/><circle cx="124" cy="64" r="6"/><circle cx="78" cy="84" r="6"/><circle cx="112" cy="92" r="6"/></g>
       {/* discrete-math symbol */}
-      <text x="44" y="46" fontFamily="Verdana" fontWeight="800" fontSize="13" fill="#ffe04d">∀x</text>
+      <text className="lego-bounce" x="44" y="46" fontFamily="Verdana" fontWeight="800" fontSize="13" fill="#ffe04d">∀x</text>
       {/* chalk tray + chalk */}
       <rect x="36" y="112" width="118" height="7" rx="3" fill="#9a6a33"/>
       <rect x="110" y="113" width="16" height="4" rx="2" fill="#fff"/>
       <rect x="60" y="113" width="14" height="4.5" rx="2" fill="#d01012"/>
+      {/* a minifigure walks the graph — Lego theme only */}
+      <Climber className="graph-walker" torso="#7048b0" />
     </svg>
   );
 }

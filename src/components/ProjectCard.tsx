@@ -4,7 +4,7 @@ import { getBuild } from "@/lego/registry";
 export function ProjectCard({ project }: { project: Project }) {
   const Build = getBuild(project.legoBuild);
   return (
-    <article className="brick-card rounded-[var(--radius-brand)] bg-surface p-6 shadow-sm">
+    <article className="lego-card brick-card rounded-[var(--radius-brand)] bg-surface p-6 shadow-sm">
       <div className="flex h-36 items-center justify-center"><Build className="max-h-36 w-auto" /></div>
       <h3 className="font-display mt-4 text-xl font-bold text-fg">{project.name}</h3>
       <p className="mt-1 text-sm text-muted">{project.blurb}</p>
