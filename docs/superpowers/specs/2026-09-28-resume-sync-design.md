@@ -120,7 +120,7 @@ Units:
 | Résumé text parser | `scripts/resume/projectBlocks.ts` | Extracted PDF text → `{ name, note?, tech[], bullets[] }[]` | nothing |
 | Draft builder | `scripts/resume/draft.ts` | Parsed block → `Project` draft with `legoBuild: "pending"` | types |
 | Planner | `scripts/resume/plan.ts` | (résumé IDs, known projects, current list, PDF hashes) → a `SyncPlan` (§7.1) | nothing |
-| PDF reader | `scripts/resume/pdf.ts` | Bytes → keywords (`pdf-lib`) and text (`pdfjs-dist`) | pdf-lib, pdfjs-dist |
+| PDF reader | `scripts/resume/pdf.ts` | Bytes → keywords and text (`pdfjs-dist`) | pdfjs-dist |
 | Sync CLI | `scripts/sync-resume.ts` | Orchestration: scan, git, apply plan, run tests, push, open PR, report | all of the above, git, gh |
 | Watcher | `scripts/windows/resume-watch.ps1` | Cheap change check, invoke WSL, toast | PowerShell 5.1 |
 | Task registration | `scripts/windows/register-resume-task.ps1` | Install/replace the Scheduled Task | PowerShell 5.1 |
@@ -129,6 +129,8 @@ Units:
 Parsers, draft builder, and planner are pure and hold all the decision logic; the CLI and PowerShell are thin shells around them.
 
 Scripts are TypeScript run with `tsx` (new devDependency) so they can import `src/content/*.ts` directly. `npm run sync:resume` = `tsx scripts/sync-resume.ts`.
+
+`pdfjs-dist` reads both keywords and text. `pdf-lib` was the first choice for keywords but cannot read the Info dictionary of pdfTeX's xref-stream PDFs (verified on the real résumé); it is kept only as a devDependency for generating test PDFs, whose keywords `pdfjs-dist` reads correctly.
 
 ## 7. The Sync (Node side)
 
@@ -171,7 +173,7 @@ If `resume-sync/<id>` already exists, the sync leaves it untouched and reports "
 The branch does **not** touch `resume-projects.json`. After the PR merges, the next sync run (or a manual `npm run sync:resume`) finds the ID is now known and adds it to the list via the safe path. This avoids merge conflicts on the list.
 
 ### 7.4 Working copy isolation
-The sync runs only in `~/projects/portfolio-sync`, a dedicated git worktree of the portfolio repo, never in `~/projects/portfolio`. Each run starts with `git fetch origin && git checkout --detach origin/main && git reset --hard && git clean -fd -e node_modules`, then `npm ci` if `package-lock.json` changed since the last install.
+The sync runs only in `~/projects/portfolio-sync`, a dedicated git worktree of the portfolio repo, never in `~/projects/portfolio`. A non-dry run refuses to start unless the repo directory is named `portfolio-sync`, so it can never reset a working copy. After resetting, it re-executes itself so the run uses `origin/main`'s code and content, not the previous checkout's. Each run starts with `git fetch origin && git checkout --detach origin/main && git reset --hard && git clean -fd -e node_modules`, then `npm ci` if `package-lock.json` changed since the last install.
 
 ### 7.5 CLI flags
 - `--downloads <dir>`: directory to scan (default `/mnt/c/Users/ddgg0/Downloads`).
@@ -206,8 +208,8 @@ PRs are opened with the owner's `gh` credentials (not `GITHUB_TOKEN`), so they t
 1. Read `lastScan` from `%LOCALAPPDATA%\resume-sync\state.json` (missing → epoch).
 2. If no `*.pdf` in `%USERPROFILE%\Downloads` has `LastWriteTime > lastScan`, exit. WSL is not started.
 3. Otherwise run:
-   `wsl.exe -d Ubuntu-24.04 --cd /home/ddgg0/projects/portfolio-sync -- bash -c "source ~/.nvm/nvm.sh && npm run --silent sync:resume -- --json"`
-   (nvm is not loaded in non-interactive shells, so it is sourced explicitly.)
+   `wsl.exe -d Ubuntu-24.04 -e bash -c "source ~/.nvm/nvm.sh && cd ~/projects/portfolio-sync && npm run --silent sync:resume -- --json"`
+   (nvm is not loaded in non-interactive shells, so it is sourced explicitly. `-e` passes the command as one argument; `wsl.exe --` would re-join it through a shell.)
 4. Parse the JSON result. On `status: "ok"`, set `lastScan` to the scan start time. On `error`, leave `lastScan` unchanged so the next run retries.
 5. Show a Windows toast (WinRT notification API from PowerShell 5.1, no extra module) for any `error` or `warnings`. Successful runs are silent.
 6. Append one line per run to `%LOCALAPPDATA%\resume-sync\log.txt` (timestamp, status, actions, error). Keep the last 1000 lines.
